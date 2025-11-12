@@ -1,0 +1,33 @@
+server:
+  port: 8082
+
+spring:
+  cloud:
+    gateway.server.webflux:
+      #      default-filters:
+      #        - PrefixPath=/httpbin
+      #        - AddResponseHeader=X-Response-Default-Foo, Default-Bar
+      routes:
+        - id: api_resource
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api
+          filters:
+            - TokenRelay=
+  security:
+    oauth2:
+      client:
+        registration:
+          spring:
+            provider: spring
+            client-id: ${OAUTH_CLIENT_ID}
+            client-secret: ${OAUTH_CLIENT_SECRET}
+            client-authentication-method: client_secret_basic
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            scope:
+              - user.read
+              - openid
+        provider:
+          spring:
+            issuer-uri: ${OAUTH_SERVER_URI}

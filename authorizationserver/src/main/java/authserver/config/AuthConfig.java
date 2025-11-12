@@ -53,6 +53,7 @@ public class AuthConfig {
   }
 
   @Bean
+  @Profile({"dev"})
   CommandLineRunner commandLineRunner(
       @Value("${AUTH_SERVER_ORIGIN}") String authOrigin,
       @Value("${GATEWAY_ORIGIN}") String gatewayOrigin,
