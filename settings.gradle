@@ -1,0 +1,4 @@
+rootProject.name = 'oauth'
+include 'authorizationserver'
+include 'resourceserver'
+include 'oauthclient'

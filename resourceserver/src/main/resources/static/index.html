@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome</title>
+</head>
+<script type="text/javascript">
+    let user;
+
+    const apiPrefix = '/api';
+
+    async function fetchUser() {
+        const request = await fetch(`${apiPrefix}/user`);
+        const response = await request.json();
+        document.getElementById('user').innerHTML = response.username;
+    }
+
+    fetchUser();
+</script>
+<body>
+    <h3>Welcome <span id="user"></span></h3>
+</body>
+</html>
