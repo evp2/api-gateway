@@ -52,11 +52,11 @@ public class AuthConfig {
     return new JdbcOAuth2AuthorizationService(jdbcOperations, rcr);
   }
 
+  // Utility method to initialize SQL tables only need to run this once
   @Bean
   @Profile({"dev"})
   CommandLineRunner commandLineRunner(
-      @Value("${AUTH_SERVER_ORIGIN}") String authOrigin,
-      @Value("${GATEWAY_ORIGIN}") String gatewayOrigin,
+      @Value("${GATEWAY_SERVER_URI}") String gatewayUri,
       @Value("${OAUTH_CLIENT_ID}") String client,
       @Value("${OAUTH_CLIENT_SECRET}") String secret,
       @Value("${USER_PASSWORD}") String userSecret,
@@ -83,8 +83,8 @@ public class AuthConfig {
                     AuthorizationGrantType.CLIENT_CREDENTIALS,
                     AuthorizationGrantType.AUTHORIZATION_CODE,
                     AuthorizationGrantType.REFRESH_TOKEN)))
-                .redirectUri(authOrigin + "/login/oauth2/code/spring")
-                .postLogoutRedirectUri(gatewayOrigin + "/logout")
+                .redirectUri(gatewayUri + "/login/oauth2/code/spring")
+                .postLogoutRedirectUri(gatewayUri + "/logout")
                 .scopes(scopes -> scopes.addAll(Set.of("user.read", "user.write", OidcScopes.OPENID)))
                 .build()
         );
