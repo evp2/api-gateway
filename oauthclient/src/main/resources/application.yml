@@ -4,9 +4,6 @@ server:
 spring:
   cloud:
     gateway.server.webflux:
-      #      default-filters:
-      #        - PrefixPath=/httpbin
-      #        - AddResponseHeader=X-Response-Default-Foo, Default-Bar
       routes:
         - id: api_resource
           uri: http://localhost:8081
