@@ -21,6 +21,7 @@ spring:
         registration:
           spring:
             provider: spring
+            client-name: Spring
             client-id: ${OAUTH_CLIENT_ID}
             client-secret: ${OAUTH_CLIENT_SECRET}
             client-authentication-method: client_secret_basic
