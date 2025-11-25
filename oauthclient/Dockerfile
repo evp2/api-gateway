@@ -1,6 +1,6 @@
 FROM gradle:8.6-jdk21 AS builder
 WORKDIR /home/gradle/project
-COPY --chown=gradle:gradle ../../.. .
+COPY --chown=gradle:gradle . .
 RUN ./gradlew --no-daemon clean bootJar -x test
 
 FROM eclipse-temurin:24-jre
