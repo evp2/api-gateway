@@ -1,0 +1,41 @@
+server:
+  port: 8082
+spring:
+  cloud:
+    gateway:
+      server:
+        webmvc:
+          routes:
+            - id: api_resource
+              uri: http://localhost:8081
+              predicates:
+                - Path=/api/**
+              filters:
+                - TokenRelay=
+                - StripPrefix=1
+                - name: CircuitBreaker
+                  args:
+                    id: defaultCircuitBreaker
+                    fallbackUri: forward:/fallback
+  security:
+    oauth2:
+      client:
+        registration:
+          spring:
+            provider: spring
+            client-name: spring
+            client-id: login-client
+            client-secret: ${LOGIN_CLIENT_SECRET}
+            client-authentication-method: client_secret_basic
+            authorization-grant-type: authorization_code
+            redirect-uri: http://127.0.0.1:8082/login/oauth2/code/login-client
+            scope:
+              - openid
+              - profile
+          github:
+            client-name: Github
+            client-id: ${GITHUB_CLIENT_ID}
+            client-secret: ${GITHUB_CLIENT_SECRET}
+        provider:
+          spring:
+            issuer-uri: http://localhost:8080
