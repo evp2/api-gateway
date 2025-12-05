@@ -3,8 +3,10 @@ package com.github.evp2.resourceserver;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -12,6 +14,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 @SpringBootApplication
 public class ResourceServerApplication {
@@ -22,20 +25,29 @@ public class ResourceServerApplication {
   @Bean
   SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http.authorizeHttpRequests(auth -> auth
-            .requestMatchers("/alerts/**").permitAll()
-            .requestMatchers("/").authenticated())
-        .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
-        .cors(Customizer.withDefaults());
+            .requestMatchers(
+                "/**",
+                "/assets/**",
+                "/favicon.ico"
+            ).permitAll()
+            .requestMatchers(HttpMethod.GET, "/alerts").permitAll()
+            .requestMatchers(HttpMethod.PUT, "/alerts").permitAll()
+            .requestMatchers(HttpMethod.OPTIONS, "/alerts").permitAll()
+            .requestMatchers("/api/**").authenticated())
+        .csrf(AbstractHttpConfigurer::disable)
+        .cors(Customizer.withDefaults())
+        .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
     return http.build();
   }
 
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration config = new CorsConfiguration();
-    config.setAllowedMethods(Arrays.asList("GET", "HEAD", "PATCH", "OPTIONS"));
-    config.setAllowedOrigins(Collections.singletonList("*"));
+    config.setAllowedMethods(Arrays.asList("GET", "HEAD", "PATCH", "POST", "PUT", "OPTIONS"));
+    config.setAllowedOrigins(List.of("http://localhost:5173", "*"));
+    config.setAllowedHeaders(Collections.singletonList("*"));
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    source.registerCorsConfiguration("/alerts/**", config);
+    source.registerCorsConfiguration("/**", config);
     return source;
   }
 }
