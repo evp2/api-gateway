@@ -23,8 +23,8 @@ Set environment variables (example values used for dev profile):
 
 - `GATEWAY_SERVER_URI` — Gateway Server Origin (e.g. `http://127.0.0.1:8082`)
 - `OAUTH_SERVER_URI` — Auth Server Origin (e.g. `http://127.0.0.1:8080`)
-- `OAUTH_CLIENT_ID` — Registered Client ID
-- `OAUTH_CLIENT_SECRET` — Registered Client Secret
+- `SPRING_OUATH_CLIENT_ID` — Registered Client ID
+- `SPRING_OUATH_CLIENT_SECRET` — Registered Client Secret
 - `SPRING_DATASOURCE_URL` — JDBC URL (e.g. `jdbc:postgresql://localhost:5432/mydb`)
 - `SPRING_DATASOURCE_USERNAME`
 - `SPRING_DATASOURCE_PASSWORD`
