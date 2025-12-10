@@ -25,7 +25,7 @@ spring:
             provider: spring
             client-name: spring
             client-id: ${SPRING_OUATH_CLIENT_ID}
-            client-secret: ${SPRING_OUATH_CLIENT_SECRET}
+            client-secret: ${SPRING_OAUTH_CLIENT_SECRET}
 
             client-authentication-method: client_secret_basic
             authorization-grant-type: authorization_code
