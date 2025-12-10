@@ -6,6 +6,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class DefaultController {
+  @GetMapping("/")
+  public String index() {
+    return "redirect:/api";
+  }
 
   @GetMapping("/fallback")
   @ResponseBody

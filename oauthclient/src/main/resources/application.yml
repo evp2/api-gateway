@@ -26,6 +26,7 @@ spring:
             client-name: spring
             client-id: ${SPRING_OUATH_CLIENT_ID}
             client-secret: ${SPRING_OUATH_CLIENT_SECRET}
+
             client-authentication-method: client_secret_basic
             authorization-grant-type: authorization_code
             redirect-uri: http://127.0.0.1:8082/login/oauth2/code/login-client

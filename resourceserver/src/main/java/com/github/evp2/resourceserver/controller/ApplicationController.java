@@ -10,13 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class ApplicationController {
-
-  private final AlertService alertService;
-
-  public ApplicationController(AlertService alertService) {
-    this.alertService = alertService;
-  }
-
   @GetMapping("/")
   public String index(@AuthenticationPrincipal Jwt jwt, Model model) {
     model.addAttribute("token", jwt.getTokenValue());

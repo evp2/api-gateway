@@ -26,14 +26,11 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+//Optional configuration for SQL backend client registration
+@Profile({"dev"})
 @Configuration
 @EnableWebSecurity
 public class AuthConfig {
-
-  @Bean
-  UserDetailsManager users(DataSource dataSource) {
-    return new JdbcUserDetailsManager(dataSource);
-  }
 
   @Bean
   JdbcRegisteredClientRepository registeredClientRepository(JdbcTemplate jdbcTemplate) {
@@ -54,7 +51,6 @@ public class AuthConfig {
 
   // Utility method to initialize SQL tables only need to run this once
   @Bean
-  @Profile({"dev"})
   CommandLineRunner commandLineRunner(
       @Value("${GATEWAY_SERVER_URI}") String gatewayUri,
       @Value("${OAUTH_CLIENT_ID}") String client,
@@ -64,8 +60,8 @@ public class AuthConfig {
       JdbcRegisteredClientRepository registeredClientRepository) {
     return (args) -> {
       List<UserDetails> users = List.of(
-          User.withDefaultPasswordEncoder().username("admin").password(userSecret).roles("admin,user").build(),
-          User.withDefaultPasswordEncoder().username("user").password(userSecret).roles("user").build()
+          User.withDefaultPasswordEncoder().username("admin").password(userSecret).roles("admin,read").build(),
+          User.withDefaultPasswordEncoder().username("user").password(userSecret).roles("user,read").build()
       );
       users.forEach((user) -> {
         if (!userDetailsManager.userExists(user.getUsername())) {
