@@ -19,7 +19,7 @@ Technologies: Java, Spring Boot, Gradle, SQL (configure your preferred RDBMS).
 
 ## Run locally
 
-Set required environment variables (example names used by Spring Boot):
+Set environment variables (example values used for dev profile):
 
 - `GATEWAY_SERVER_URI` — Gateway Server Origin (e.g. `http://127.0.0.1:8082`)
 - `OAUTH_SERVER_URI` — Auth Server Origin (e.g. `http://127.0.0.1:8080`)
